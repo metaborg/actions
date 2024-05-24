@@ -3,6 +3,23 @@ This repository contains [reusable GitHub workflows](https://docs.github.com/en/
 
 
 
+## Gradle Dependencies
+The `gradle-dependencies.yaml` workflow submits the dependencies of the project to GitHub. To apply the workflow:
+
+```yaml
+---
+name: 'Submit Dependencies'
+
+on:  # yamllint disable-line rule:truthy
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    uses: metaborg/workflows/.github/workflows/gradle-dependencies.yaml@v1
+```
+
 
 ## MkDocs Material
 The `mkdocs-material.yaml` workflow sets up Python and MkDocs Material and builds and deploys the project's documentation. To apply the workflow:

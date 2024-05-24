@@ -1,0 +1,61 @@
+---
+name: 'Gradle Dependencies'
+
+on:  # yamllint disable-line rule:truthy
+  workflow_call:        # Reusable workflow
+    inputs:
+      os:
+        description: 'The OS to run on.'
+        type: string
+        required: false
+        default: 'ubuntu-latest'
+      java-version:
+        description: 'The Java version.'
+        type: string
+        required: false
+        default: '11'
+      java-distribution:
+        description: 'The Java distribution identifier.'
+        type: string
+        required: false
+        default: 'temurin'
+      gradle-version:
+        description: 'The Gradle version, or "wrapper" or "current".'
+        type: string
+        required: false
+        default: 'wrapper'
+      gradle-build-scan-publish:
+        description: 'Whether to publish a build scan.'
+        type: boolean
+        required: false
+        default: true
+
+permissions:
+  contents: write
+
+jobs:
+  dependency-submission:
+    name: Submit Dependencies
+    strategy:
+      matrix:
+        os: [ubuntu-latest]   # Just one
+        java: [11]            # Just one
+        gradle: [wrapper]     # Just one
+    runs-on: ${{ inputs.os }}
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v4
+      - name: 'Validate Gradle wrapper'
+        uses: gradle/actions/wrapper-validation@v3
+      - name: "Setup JDK ${{ inputs.java-distribution }} ${{ inputs.java-version }}"
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ inputs.java-version }}
+          distribution: ${{ inputs.java-distribution }}
+      - name: 'Generate and submit dependency graph'
+        uses: gradle/actions/dependency-submission@v3
+        with:
+          gradle-version: ${{ inputs.gradle-version }}
+          build-scan-publish: ${{ inputs.gradle-build-scan-publish }}
+          build-scan-terms-of-use-url: "https://gradle.com/help/legal-terms-of-use"
+          build-scan-terms-of-use-agree: "yes"
