@@ -1,10 +1,13 @@
-# Workflows
-This repository contains [reusable GitHub workflows](https://docs.github.com/en/actions/using-workflows/reusing-workflows) for Metaborg/Spoofax repositories.
+# CI Workflows and Actions
+This repository contains [reusable GitHub workflows](https://docs.github.com/en/actions/using-workflows/reusing-workflows) and GitHub actions for Metaborg/Spoofax repositories.
 
 
+## Reusable Workflows
+This repository contains reusable GitHub workflows. The following reusable workflows are available:
 
-## Gradle Build
-The `gradle-build-matrix.yaml` workflow sets up Java and Gradle and builds the project on the default Matrix of Java and Gradle versions and OS'ses. To apply the workflow:
+
+### Gradle Build
+The `gradle-build-matrix.yaml` workflow sets up Java and Gradle and builds the project on the default Matrix of Java and Gradle versions and OS'ses. This shows how to apply the workflow and the default configuration options:
 
 ```yaml
 ---
@@ -15,22 +18,60 @@ on:  # yamllint disable-line rule:truthy
     branches:
       - main
     tags:
-      - "release-*.*.*"
+      - 'release-*.*.*'
   pull_request:
     branches:
       - main
 
 jobs:
   build:
-    uses: metaborg/workflows/.github/workflows/gradle-build-matrix.yaml@main
+    uses: metaborg/actions/.github/workflows/gradle-build-matrix.yaml@main
+    with:
+      os: 'ubuntu-latest'
+      java-distribution: 'temurin'
+      gradle-build-scan-publish: true
+      gradle-command: |
+        gradle build
 ```
 
 > [!NOTE]
-> To change the build matrix for a specific project, using the `gradle-build.yaml` workflow instead.
+> To change the build matrix for a specific project, using the `gradle-build.yaml` workflow instead:
+> ```yaml
+> ---
+> name: 'Build'
+> 
+> on:  # yamllint disable-line rule:truthy
+>   push:
+>     branches:
+>       - main
+>     tags:
+>       - 'release-*.*.*'
+>   pull_request:
+>     branches:
+>       - main
+> 
+> jobs:
+>   build:
+>     strategy:
+>       matrix:
+>         os: [ubuntu-latest, windows-latest, macos-latest]
+>         java-version: [11]
+>         gradle-version: ["wrapper", "7.6.4", "8.6", "current"]
+>     uses: metaborg/actions/.github/workflows/gradle-build.yaml@main
+>     with:
+>       os: ${{ matrix.os }}
+>       java-version: ${{ matrix.java-version }}        # default: '11'
+>       java-distribution: 'temurin'
+>       gradle-version: ${{ matrix.gradle-version }}    # default: 'wrapper'
+>       gradle-build-scan-publish: true
+>       gradle-command: |
+>         gradle build
+> ```
 
 
-## Gradle Dependencies
-The `gradle-dependencies.yaml` workflow submits the dependencies of the project to GitHub. To apply the workflow:
+
+### Gradle Dependencies
+The `gradle-dependencies.yaml` workflow submits the dependencies of the project to GitHub. This shows how to apply the workflow and the default configuration options:
 
 ```yaml
 ---
@@ -43,12 +84,20 @@ on:  # yamllint disable-line rule:truthy
 
 jobs:
   build:
-    uses: metaborg/workflows/.github/workflows/gradle-dependencies.yaml@main
+    uses: metaborg/actions/.github/workflows/gradle-dependencies.yaml@main
+    with:
+      os: 'ubuntu-latest'
+      java-version: '11'
+      java-distribution: 'temurin'
+      gradle-version: 'wrapper'
+      gradle-build-scan-publish: true
+      gradle-command: |
+        gradle build
 ```
 
 
-## MkDocs Material
-The `mkdocs-material.yaml` workflow sets up Python and MkDocs Material and builds and deploys the project's documentation. To apply the workflow:
+### MkDocs Material
+The `mkdocs-material.yaml` workflow sets up Python and MkDocs Material and builds and deploys the project's documentation. This shows how to apply the workflow and the default configuration options:
 
 ```yaml
 ---
@@ -62,12 +111,14 @@ on:  # yamllint disable-line rule:truthy
 
 jobs:
   documentation:
-    uses: metaborg/workflows/.github/workflows/mkdocs-material.yaml@main
+    uses: metaborg/actions/.github/workflows/mkdocs-material.yaml@main
+    with:
+      docs-dir: 'docs'
 ```
 
 
-## Yaml Lint
-The `yamllint.yaml` workflow lints the YAML files in the repository according to the `.yamllint.yaml` file in the repository's root. To apply the workflow:
+### Yaml Lint
+The `yamllint.yaml` workflow lints the YAML files in the repository according to the `.yamllint.yaml` file in the repository's root. This shows how to apply the workflow and the default configuration options:
 
 ```yaml
 ---
@@ -80,7 +131,7 @@ on:  # yamllint disable-line rule:truthy
 
 jobs:
   lint:
-    uses: metaborg/workflows/.github/workflows/yaml-lint.yaml@main
+    uses: metaborg/actions/.github/workflows/yaml-lint.yaml@main
 ```
 
 For example, use the following `.yamllint.yaml` file in the repository root:

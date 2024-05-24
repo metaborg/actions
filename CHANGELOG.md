@@ -7,3 +7,4 @@ All notable changes to this project will be documented in this file. The format 
 - Add `gradle-dependencies.yaml` reusable workflow.
 - Add `mkdocs-material.yaml` reusable workflow.
 - Add `yaml-lint.yaml` reusable workflow.
+
