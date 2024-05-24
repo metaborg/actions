@@ -3,6 +3,38 @@ This repository contains [reusable GitHub workflows](https://docs.github.com/en/
 
 
 
+
+## Yaml Lint
+The `yamllint.yaml` workflow lints the YAML files in the repository according to the `.yamllint.yaml` file in the repository's root. To apply the workflow:
+
+```yaml
+---
+name: 'Lint'
+
+on:  # yamllint disable-line rule:truthy
+  push:
+    branches:
+      - main
+
+jobs:
+  lint:
+    uses: metaborg/workflows/.github/workflows/yaml-lint.yaml@v1
+```
+
+For example, use the following `.yamllint.yaml` file in the repository root:
+
+```yaml
+---
+extends: default
+
+rules:
+  comments-indentation: disable
+  line-length:
+    max: 120
+```
+
+
+
 ## License
 Copyright 2024 Delft University of Technology
 
