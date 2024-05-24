@@ -9,6 +9,11 @@ on:  # yamllint disable-line rule:truthy
         type: string
         required: false
         default: 'ubuntu-latest'
+      java-distribution:
+        description: 'The Java distribution identifier.'
+        type: string
+        required: false
+        default: 'temurin'
       gradle-build-scan-publish:
         description: 'Whether to publish a build scan.'
         type: boolean
