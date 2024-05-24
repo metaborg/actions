@@ -22,7 +22,7 @@ on:  # yamllint disable-line rule:truthy
 
 jobs:
   build:
-    uses: metaborg/workflows/.github/workflows/gradle-build-matrix.yaml@v1
+    uses: metaborg/workflows/.github/workflows/gradle-build-matrix.yaml@main
 ```
 
 > [!NOTE]
@@ -43,7 +43,7 @@ on:  # yamllint disable-line rule:truthy
 
 jobs:
   build:
-    uses: metaborg/workflows/.github/workflows/gradle-dependencies.yaml@v1
+    uses: metaborg/workflows/.github/workflows/gradle-dependencies.yaml@main
 ```
 
 
@@ -62,7 +62,7 @@ on:  # yamllint disable-line rule:truthy
 
 jobs:
   documentation:
-    uses: metaborg/workflows/.github/workflows/mkdocs-material.yaml@v1
+    uses: metaborg/workflows/.github/workflows/mkdocs-material.yaml@main
 ```
 
 
@@ -80,7 +80,7 @@ on:  # yamllint disable-line rule:truthy
 
 jobs:
   lint:
-    uses: metaborg/workflows/.github/workflows/yaml-lint.yaml@v1
+    uses: metaborg/workflows/.github/workflows/yaml-lint.yaml@main
 ```
 
 For example, use the following `.yamllint.yaml` file in the repository root:
