@@ -16,5 +16,5 @@ jobs:
     uses: ./.github/workflows/gradle-build.yaml
     with:
       os: ${{ matrix.os }}
-      java-version: ${{ matrix.java }}
-      gradle-version: ${{ matrix.gradle }}
+      java-version: ${{ matrix.java-version }}
+      gradle-version: ${{ matrix.gradle-version }}
