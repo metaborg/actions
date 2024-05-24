@@ -36,6 +36,7 @@ jobs:
 
 > [!NOTE]
 > To change the build matrix for a specific project, using the `gradle-build.yaml` workflow instead:
+> 
 > ```yaml
 > ---
 > name: 'Build'
