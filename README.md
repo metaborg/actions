@@ -4,6 +4,25 @@ This repository contains [reusable GitHub workflows](https://docs.github.com/en/
 
 
 
+## MkDocs Material
+The `mkdocs-material.yaml` workflow sets up Python and MkDocs Material and builds and deploys the project's documentation. To apply the workflow:
+
+```yaml
+---
+name: 'Documentation'
+
+on:  # yamllint disable-line rule:truthy
+  push:
+    branches:
+      - main
+  workflow_dispatch: {} # Allow running this workflow manually (Actions tab)
+
+jobs:
+  documentation:
+    uses: metaborg/workflows/.github/workflows/mkdocs-material.yaml@v1
+```
+
+
 ## Yaml Lint
 The `yamllint.yaml` workflow lints the YAML files in the repository according to the `.yamllint.yaml` file in the repository's root. To apply the workflow:
 
