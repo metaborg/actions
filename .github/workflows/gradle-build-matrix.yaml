@@ -2,7 +2,24 @@
 name: 'Gradle Build (Matrix)'
 
 on:  # yamllint disable-line rule:truthy
-  workflow_call: {}     # Reusable workflow
+  workflow_call:        # Reusable workflow
+    inputs:
+      os:
+        description: 'The OS to run on.'
+        type: string
+        required: false
+        default: 'ubuntu-latest'
+      gradle-build-scan-publish:
+        description: 'Whether to publish a build scan.'
+        type: boolean
+        required: false
+        default: true
+      gradle-command:
+        description: 'The Gradle command to execute.'
+        type: string
+        required: false
+        default: |
+          gradle build
 
 jobs:
   build:
@@ -13,8 +30,29 @@ jobs:
         java-version: [11]
         gradle-version: ["wrapper", "7.6.4", "8.6", "current"]
     runs-on: ${{ matrix.os }}
-    uses: ./.github/workflows/gradle-build.yaml
-    with:
-      os: ${{ matrix.os }}
-      java-version: ${{ matrix.java-version }}
-      gradle-version: ${{ matrix.gradle-version }}
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v4
+        with:
+          # Gitonium doesn't work on a sparse repository:
+          # it requires all tags of all commits to be fetched
+          fetch-depth: 0
+          fetch-tags: true
+      - name: 'Validate Gradle wrapper'
+        uses: gradle/actions/wrapper-validation@v3
+      - name: "Setup JDK ${{ inputs.java-distribution }} ${{ matrix.java-version }}"
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ matrix.java-version }}
+          distribution: ${{ inputs.java-distribution }}
+      - name: "Setup Gradle ${{ matrix.gradle-version }}"
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: ${{ matrix.gradle-version }}
+          build-scan-publish: ${{ inputs.gradle-build-scan-publish }}
+          build-scan-terms-of-service-url: "https://gradle.com/terms-of-service"
+          build-scan-terms-of-service-agree: "yes"
+      - name: 'Build'
+        run: ${{ inputs.gradle-command }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
