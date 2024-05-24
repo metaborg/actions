@@ -3,6 +3,32 @@ This repository contains [reusable GitHub workflows](https://docs.github.com/en/
 
 
 
+## Gradle Build
+The `gradle-build-matrix.yaml` workflow sets up Java and Gradle and builds the project on the default Matrix of Java and Gradle versions and OS'ses. To apply the workflow:
+
+```yaml
+---
+name: 'Build'
+
+on:  # yamllint disable-line rule:truthy
+  push:
+    branches:
+      - main
+    tags:
+      - "release-*.*.*"
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    uses: metaborg/workflows/.github/workflows/gradle-build-matrix.yaml@v1
+```
+
+> [!NOTE]
+> To change the build matrix for a specific project, using the `gradle-build.yaml` workflow instead.
+
+
 ## Gradle Dependencies
 The `gradle-dependencies.yaml` workflow submits the dependencies of the project to GitHub. To apply the workflow:
 

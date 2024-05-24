@@ -1,0 +1,68 @@
+---
+name: 'Gradle Build'
+
+on:  # yamllint disable-line rule:truthy
+  workflow_call:        # Reusable workflow
+    inputs:
+      os:
+        description: 'The OS to run on.'
+        type: string
+        required: false
+        default: 'ubuntu-latest'
+      java-version:
+        description: 'The Java version.'
+        type: string
+        required: false
+        default: '11'
+      java-distribution:
+        description: 'The Java distribution identifier.'
+        type: string
+        required: false
+        default: 'temurin'
+      gradle-version:
+        description: 'The Gradle version, or "wrapper" or "current".'
+        type: string
+        required: false
+        default: 'wrapper'
+      gradle-build-scan-publish:
+        description: 'Whether to publish a build scan.'
+        type: boolean
+        required: false
+        default: true
+      gradle-command:
+        description: 'The Gradle command to execute.'
+        type: string
+        required: false
+        default: |
+          gradle build
+
+jobs:
+  build:
+    name: 'Build'
+    runs-on: ${{ inputs.os }}
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v4
+        with:
+          # Gitonium doesn't work on a sparse repository:
+          # it requires all tags of all commits to be fetched
+          fetch-depth: 0
+          fetch-tags: true
+      - name: 'Validate Gradle wrapper'
+        uses: gradle/actions/wrapper-validation@v3
+      - name: "Setup JDK ${{ inputs.java-distribution }} ${{ inputs.java-version }}"
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ inputs.java-version }}
+          distribution: ${{ inputs.java-distribution }}
+      - name: "Setup Gradle ${{ inputs.gradle-version }}"
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: ${{ inputs.gradle-version }}
+          build-scan-publish: ${{ inputs.gradle-build-scan-publish }}
+          build-scan-terms-of-service-url: "https://gradle.com/terms-of-service"
+          build-scan-terms-of-service-agree: "yes"
+      - name: 'Build'
+        run: ${{ inputs.gradle-command }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
