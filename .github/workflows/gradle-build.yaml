@@ -40,6 +40,8 @@ jobs:
   build:
     name: 'Build'
     runs-on: ${{ inputs.os }}
+    # Timeout in 10 minutes, as Stratego initialization can sometimes deadlock
+    timeout-minutes: 10
     steps:
       - name: 'Checkout'
         uses: actions/checkout@v4
