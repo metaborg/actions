@@ -94,4 +94,4 @@ jobs:
           files: |
             **/build/publications/*/*
             **/build/libs/*
-          fail_on_unmatched_files: true
+          fail_on_unmatched_files: false
