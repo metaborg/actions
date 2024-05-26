@@ -94,13 +94,20 @@ jobs:
       gradle-command: |
         gradle assemble publish
     secrets:
-      METABORG_USERNAME: ${{ secrets.METABORG_USERNAME }}
-      METABORG_PASSWORD: ${{ secrets.METABORG_PASSWORD }}
+      METABORG_ARTIFACTS_USERNAME: ${{ secrets.METABORG_ARTIFACTS_USERNAME }}
+      METABORG_ARTIFACTS_PASSWORD: ${{ secrets.METABORG_ARTIFACTS_PASSWORD }}
       SIGNING_KEY_ID: ${{ secrets.SIGNING_KEY_ID }}
       SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
       SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
 ```
 
+In GitHub, configure the following secrets:
+
+- `METABORG_ARTIFACTS_USERNAME`: The Metaborg artifacts username.
+- `METABORG_ARTIFACTS_PASSWORD`: The Metaborg artifacts password.
+- `SIGNING_KEY`: The signing key.
+- `SIGNING_KEY_ID`: The signing key ID.
+- `SIGNING_KEY_PASSWORD`: The signing key password.
 
 
 

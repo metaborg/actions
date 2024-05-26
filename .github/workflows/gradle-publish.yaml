@@ -36,16 +36,16 @@ on:  # yamllint disable-line rule:truthy
         default: |
           gradle assemble publish
     secrets:
-      METABORG_USERNAME:
+      METABORG_ARTIFACTS_USERNAME:
         required: true
-      METABORG_PASSWORD:
+      METABORG_ARTIFACTS_PASSWORD:
         required: true
       SIGNING_KEY_ID:
-        required: true
+        required: false
       SIGNING_KEY_PASSWORD:
-        required: true
+        required: false
       SIGNING_KEY:
-        required: true
+        required: false
 
 jobs:
   publish:
@@ -81,8 +81,8 @@ jobs:
       - name: 'Publish'
         run: ${{ inputs.gradle-command }}
         env:
-          METABORG_USERNAME: ${{ secrets.METABORG_USERNAME }}
-          METABORG_PASSWORD: ${{ secrets.METABORG_PASSWORD }}
+          METABORG_ARTIFACTS_USERNAME: ${{ secrets.METABORG_ARTIFACTS_USERNAME }}
+          METABORG_ARTIFACTS_PASSWORD: ${{ secrets.METABORG_ARTIFACTS_PASSWORD }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SIGNING_KEY_ID: ${{ secrets.SIGNING_KEY_ID }}
           SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
