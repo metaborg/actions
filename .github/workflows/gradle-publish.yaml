@@ -92,6 +92,6 @@ jobs:
         with:
           name: "Release ${{ github.ref_name }}"
           files: |
-            "**/build/publications/*/*"
-            "**/build/libs/*.jar"
+            **/build/publications/*/*
+            **/build/libs/*
           fail_on_unmatched_files: true
