@@ -94,6 +94,5 @@ jobs:
         with:
           name: "Release ${{ env.VERSION }}"
           files: |
-            **/build/publications/*/*
             **/build/libs/*
           fail_on_unmatched_files: false
