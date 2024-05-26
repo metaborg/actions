@@ -1,0 +1,97 @@
+---
+name: 'Gradle Publish'
+
+on:  # yamllint disable-line rule:truthy
+  workflow_call:        # Reusable workflow
+    inputs:
+      os:
+        description: 'The OS to run on.'
+        type: string
+        required: false
+        default: 'ubuntu-latest'
+      java-version:
+        description: 'The Java version.'
+        type: string
+        required: false
+        default: '11'
+      java-distribution:
+        description: 'The Java distribution identifier.'
+        type: string
+        required: false
+        default: 'temurin'
+      gradle-version:
+        description: 'The Gradle version, or "wrapper" or "current".'
+        type: string
+        required: false
+        default: 'wrapper'
+      gradle-build-scan-publish:
+        description: 'Whether to publish a build scan.'
+        type: boolean
+        required: false
+        default: false  # Might contain private keys or sensitive information
+      gradle-command:
+        description: 'The Gradle command to execute.'
+        type: string
+        required: false
+        default: |
+          gradle assemble publish
+    secrets:
+      METABORG_USERNAME:
+        required: true
+      METABORG_PASSWORD:
+        required: true
+      SIGNING_KEY_ID:
+        required: true
+      SIGNING_KEY_PASSWORD:
+        required: true
+      SIGNING_KEY:
+        required: true
+
+jobs:
+  publish:
+    name: 'Publish'
+    permissions:
+      contents: write
+      packages: write
+    runs-on: ${{ inputs.os }}
+    # Timeout in 10 minutes, as Stratego initialization can sometimes deadlock
+    timeout-minutes: 10
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v4
+        with:
+          # Gitonium doesn't work on a sparse repository:
+          # it requires all tags of all commits to be fetched
+          fetch-depth: 0
+          fetch-tags: true
+      - name: 'Validate Gradle wrapper'
+        uses: gradle/actions/wrapper-validation@v3
+      - name: "Setup JDK ${{ inputs.java-distribution }} ${{ inputs.java-version }}"
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ inputs.java-version }}
+          distribution: ${{ inputs.java-distribution }}
+      - name: "Setup Gradle ${{ matrix.gradle }}"
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: ${{ inputs.gradle-version }}
+          build-scan-publish: ${{ inputs.gradle-build-scan-publish }}
+          build-scan-terms-of-use-url: "https://gradle.com/help/legal-terms-of-use"
+          build-scan-terms-of-use-agree: "yes"
+      - name: 'Publish'
+        run: ${{ inputs.gradle-command }}
+        env:
+          METABORG_USERNAME: ${{ secrets.METABORG_USERNAME }}
+          METABORG_PASSWORD: ${{ secrets.METABORG_PASSWORD }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SIGNING_KEY_ID: ${{ secrets.SIGNING_KEY_ID }}
+          SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
+          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+      - name: 'Release on GitHub'
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "Release ${{ github.ref_name }}"
+          files: |
+            "**/build/publications/*/*"
+            "**/build/libs/*.jar"
+          fail_on_unmatched_files: true

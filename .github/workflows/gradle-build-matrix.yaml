@@ -28,12 +28,12 @@ on:  # yamllint disable-line rule:truthy
 
 jobs:
   build:
-    name: Build
+    name: 'Build'
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        java-version: [11]
-        gradle-version: ["wrapper", "7.6.4", "8.6"]
+        os: ['ubuntu-latest', 'windows-latest', 'macos-latest']
+        java-version: ['11']
+        gradle-version: ['wrapper', '7.6.4', '8.6']
     runs-on: ${{ matrix.os }}
     # Timeout in 10 minutes, as Stratego initialization can sometimes deadlock
     timeout-minutes: 10

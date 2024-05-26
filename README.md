@@ -70,6 +70,40 @@ jobs:
 > ```
 
 
+### Gradle Publish
+The `gradle-publish.yaml` workflow builds, signs, and publishes the artifacts of the project to GitHub and Metaborg Artifacts.
+
+```yaml
+---
+name: 'Publish'
+
+on:  # yamllint disable-line rule:truthy
+  push:
+    tags:
+      - "release-*.*.*"
+
+jobs:
+  build:
+    uses: metaborg/actions/.github/workflows/gradle-publish.yaml@main
+    with:
+      os: 'ubuntu-latest'
+      java-version: '11'
+      java-distribution: 'temurin'
+      gradle-version: 'wrapper'
+      gradle-build-scan-publish: false
+      gradle-command: |
+        gradle assemble publish
+    secrets:
+      METABORG_USERNAME: ${{ secrets.METABORG_USERNAME }}
+      METABORG_PASSWORD: ${{ secrets.METABORG_PASSWORD }}
+      SIGNING_KEY_ID: ${{ secrets.SIGNING_KEY_ID }}
+      SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
+      SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+```
+
+
+
+
 
 ### Gradle Dependencies
 The `gradle-dependencies.yaml` workflow submits the dependencies of the project to GitHub. This shows how to apply the workflow and the default configuration options:
