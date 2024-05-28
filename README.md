@@ -211,7 +211,7 @@ Unless required by applicable law or agreed to in writing, software distributed 
 
 
 
-[github-build-badge]: https://img.shields.io/github/actions/workflow/status/metaborg/actions/build.yaml
+[github-build-badge]: https://img.shields.io/github/actions/workflow/status/metaborg/actions/yaml-lint.yaml
 [github-build]: https://github.com/metaborg/actions/actions
 [license-badge]: https://img.shields.io/github/license/metaborg/actions
 [license]: https://github.com/metaborg/actions/blob/main/LICENSE
