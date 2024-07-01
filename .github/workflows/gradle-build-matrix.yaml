@@ -33,7 +33,8 @@ jobs:
       matrix:
         os: ['ubuntu-latest', 'windows-latest', 'macos-latest']
         java-version: ['11']
-        gradle-version: ['wrapper', '7.6.4']
+        # Once https://github.com/gradle/actions/issues/273 is fixed, use 'wrapper' here
+        gradle-version: ['7.6.4']
     runs-on: ${{ matrix.os }}
     # Timeout in 10 minutes, as Stratego initialization can sometimes deadlock
     timeout-minutes: 10
