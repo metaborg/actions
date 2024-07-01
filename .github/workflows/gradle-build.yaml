@@ -23,7 +23,8 @@ on:  # yamllint disable-line rule:truthy
         description: 'The Gradle version, or "wrapper" or "current".'
         type: string
         required: false
-        default: 'wrapper'
+        # Once https://github.com/gradle/actions/issues/273 is fixed, use 'wrapper' here instead of an explicit version
+        default: '7.6.4'
       gradle-build-scan-publish:
         description: 'Whether to publish a build scan.'
         type: boolean
