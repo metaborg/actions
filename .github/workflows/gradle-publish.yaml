@@ -36,6 +36,12 @@ on:  # yamllint disable-line rule:truthy
         required: false
         default: |
           gradle assemble publish
+      gradle-version-command:
+        description: 'The Gradle command to execute to obtain the version.'
+        type: string
+        required: false
+        default: |
+          gradle -q :printVersion
     secrets:
       METABORG_ARTIFACTS_USERNAME:
         required: true
@@ -89,7 +95,7 @@ jobs:
           SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
       # Obtain the derived version number in the env.VERSION variable.
-      - run: echo "VERSION=$(gradle -q :printVersion)" >> $GITHUB_ENV
+      - run: echo "VERSION=$(${{ inputs.gradle-version-command }})" >> $GITHUB_ENV
       - name: 'Release on GitHub'
         uses: softprops/action-gh-release@v2
         with:
