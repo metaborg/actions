@@ -71,7 +71,7 @@ jobs:
         with:
           java-version: ${{ inputs.java-version }}
           distribution: ${{ inputs.java-distribution }}
-      - name: "Setup Gradle ${{ matrix.gradle }}"
+      - name: "Setup Gradle ${{ inputs.gradle-version }}"
         uses: gradle/actions/setup-gradle@v3
         with:
           gradle-version: ${{ inputs.gradle-version }}
