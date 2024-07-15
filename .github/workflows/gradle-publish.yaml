@@ -98,6 +98,7 @@ jobs:
       - run: echo "VERSION=$(${{ inputs.gradle-version-command }})" >> $GITHUB_ENV
       - name: 'Release on GitHub'
         uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
         with:
           name: "Release ${{ env.VERSION }}"
           files: |
