@@ -19,7 +19,7 @@ on:  # yamllint disable-line rule:truthy
   push:
     branches:
       - main
-  workflow_dispatch: {} # Allow running this workflow manually (Actions tab)
+  workflow_dispatch: {}  # Allow running this workflow manually (Actions tab)
 
 jobs:
   documentation:
