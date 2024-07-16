@@ -68,7 +68,7 @@ jobs:
   build:
     uses: metaborg/actions/.github/workflows/gradle-build-matrix.yaml@main
   publish:
-    if: "github.event_name == 'push'"
+    if: "github.event_name == 'push' && github.ref == 'refs/heads/main'"
     needs: [build]
     uses: metaborg/actions/.github/workflows/gradle-publish.yaml@main
     with:
@@ -82,13 +82,6 @@ jobs:
 ```
 
 This will assemble and publish the build only when new commits were pushed to the main branch and the `build` job succeeded. Note that `gitonium.isSnapshot` is a special Gradle property recognized by the Gitonium plugin that causes a snapshot version to be published even if the current commit is a tagged release.
-
-!!! tip ""
-    If you only want to build snapshot releases from pushes to the main branch, change the `if` condition to read:
-
-    ```yaml
-    if: "github.event_name == 'push' && github.ref == 'refs/heads/main'"
-    ```
 
 
 ## Changing the Build Matrix
