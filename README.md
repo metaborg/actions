@@ -1,8 +1,11 @@
 # CI Workflows and Actions
 [![Build][github-build-badge]][github-build]
 [![License][license-badge]][license]
+[![Documentation][documentation-badge]][documentation]
 
 This repository contains [reusable GitHub workflows](https://docs.github.com/en/actions/using-workflows/reusing-workflows) and GitHub actions for Metaborg/Spoofax repositories.
+
+[![Documentation][documentation-button]][documentation]
 
 | Workflow                          | Description                                                                   |
 | --------------------------------- | ----------------------------------------------------------------------------- |
@@ -215,3 +218,6 @@ Unless required by applicable law or agreed to in writing, software distributed 
 [github-build]: https://github.com/metaborg/actions/actions
 [license-badge]: https://img.shields.io/github/license/metaborg/actions
 [license]: https://github.com/metaborg/actions/blob/main/LICENSE
+[documentation-badge]: https://img.shields.io/badge/docs-latest-brightgreen
+[documentation]: https://spoofax.dev/actions/
+[documentation-button]: https://img.shields.io/badge/Documentation-blue?style=for-the-badge&logo=googledocs&logoColor=white
