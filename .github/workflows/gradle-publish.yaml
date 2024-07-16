@@ -2,7 +2,7 @@
 name: 'Gradle Publish'
 
 on:  # yamllint disable-line rule:truthy
-  workflow_call:         # Reusable workflow
+  workflow_call:        # Reusable workflow
     inputs:
       os:
         description: 'The OS to run on.'
