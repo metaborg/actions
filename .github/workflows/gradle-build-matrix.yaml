@@ -2,7 +2,7 @@
 name: 'Gradle Build (Matrix)'
 
 on:  # yamllint disable-line rule:truthy
-  workflow_call:        # Reusable workflow
+  workflow_call:         # Reusable workflow
     inputs:
       java-distribution:
         description: 'The Java distribution identifier.'

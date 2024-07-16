@@ -2,7 +2,11 @@
 name: 'MkDocs Material'
 
 on:  # yamllint disable-line rule:truthy
-  workflow_call:        # Reusable workflow
+  push:
+    branches:
+      - main
+  workflow_dispatch: {}  # Allow running this workflow manually (Actions tab)
+  workflow_call:         # Reusable workflow
     inputs:
       docs-dir:
         description: 'The documentation directory'
