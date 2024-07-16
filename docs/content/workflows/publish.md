@@ -69,6 +69,3 @@ jobs:
 !!! tip ""
     For the default values, see [the definition](https://github.com/metaborg/actions/blob/main/.github/workflows/gradle-publish.yaml).
 
-
-## Example
-A good example of a project using this workflow is the [Gitonium](https://github.com/metaborg/gitonium) project. See the Publish workflow at [`.github/workflows/dependencies.yaml`](https://github.com/metaborg/gitonium/blob/master/.github/workflows/publish.yaml) and the results of the workflow on the [Actions](https://github.com/metaborg/gitonium/actions/workflows/publish.yaml) page.
