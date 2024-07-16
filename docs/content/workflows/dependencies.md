@@ -5,6 +5,10 @@ title: "Submit Dependencies Workflow"
 The Submit Dependencies workflow gathers the dependencies used in the project and publishes them to GitHub. This enables, for example, the Dependabot Alerts.
 
 
+!!! note ""
+    By default, dependencies are submitted as part of the Build workflows.
+
+
 ## Usage
 To use the Submit Dependencies workflow in your GitHub repository, create a `.github/workflows/dependencies.yaml` file with at minimum the following contents:
 
