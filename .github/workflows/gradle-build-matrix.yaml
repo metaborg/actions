@@ -63,3 +63,4 @@ jobs:
         uses: gradle/actions/dependency-submission@v3
         with:
           build-scan-publish: false
+          additional-arguments: --no-scan
