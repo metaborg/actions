@@ -8,5 +8,6 @@ The following workflows are available for GitHub Spoofax projects:
 - [Publish](./publish.md)
 - [Dependencies](./dependencies.md)
 - [Documentation](./documentation.md)
+- [Yamllint](./yamllint.md)
 
 

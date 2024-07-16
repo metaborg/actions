@@ -91,5 +91,33 @@ This will assemble and publish the build only when new commits were pushed to th
     ```
 
 
+## Changing the Build Matrix
+To change the build matrix for a specific project, using the `gradle-build.yaml` workflow instead. For example:
+
+```yaml title=".github/workflows/build.yaml"
+---
+name: 'Build'
+
+on:  # yamllint disable-line rule:truthy
+  push:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        java-version: [11]
+        gradle-version: ["wrapper", "7.6.4", "8.6", "current"]
+    uses: metaborg/actions/.github/workflows/gradle-build.yaml@main
+    with:
+      os: ${{ matrix.os }}
+      java-version: ${{ matrix.java-version }}
+      gradle-version: ${{ matrix.gradle-version }}
+```
+
+
 ## Example
 A good example of a project using this workflow is the [Gitonium](https://github.com/metaborg/gitonium) project. See the Build workflow at [`.github/workflows/build.yaml`](https://github.com/metaborg/gitonium/blob/master/.github/workflows/build.yaml) and the results of the workflow on the [Actions](https://github.com/metaborg/gitonium/actions/workflows/build.yaml) page.
