@@ -85,6 +85,13 @@ jobs:
           build-scan-publish: ${{ inputs.gradle-build-scan-publish }}
           build-scan-terms-of-use-url: "https://gradle.com/help/legal-terms-of-use"
           build-scan-terms-of-use-agree: "yes"
+      # Obtain the derived version number in the env.VERSION variable.
+      - name: 'Obtain version'
+        shell: bash
+        run: |
+          VERSION=$(${{ inputs.gradle-version-command }})
+          echo "Version: $VERSION"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
       - name: 'Publish'
         run: ${{ inputs.gradle-command }}
         env:
@@ -94,13 +101,6 @@ jobs:
           SIGNING_KEY_ID: ${{ secrets.SIGNING_KEY_ID }}
           SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
-      # Obtain the derived version number in the env.VERSION variable.
-      - name: 'Obtain version'
-        shell: bash
-        run: |
-          VERSION=$(${{ inputs.gradle-version-command }})
-          echo "Version: $VERSION"
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
       - name: 'Release on GitHub'
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
