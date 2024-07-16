@@ -61,3 +61,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: 'Generate and submit dependency graph'
         uses: gradle/actions/dependency-submission@v3
+        with:
+          build-scan-publish: false
