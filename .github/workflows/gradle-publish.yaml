@@ -109,3 +109,4 @@ jobs:
           files: |
             **/build/libs/*
           fail_on_unmatched_files: false
+      - run: echo "Published ${{ env.VERSION }}" >> $GITHUB_STEP_SUMMARY
