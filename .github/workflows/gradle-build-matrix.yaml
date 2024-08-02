@@ -46,6 +46,9 @@ jobs:
           # it requires all tags of all commits to be fetched
           fetch-depth: 0
           fetch-tags: true
+      - name: 'Setup docker (missing on MacOS)'
+        if: runner.os == 'macos'
+        uses: douglascamata/setup-docker-macos-action@main
       - name: 'Validate Gradle wrapper'
         uses: gradle/actions/wrapper-validation@v3
       - name: "Setup JDK ${{ inputs.java-distribution }} ${{ matrix.java-version }}"
