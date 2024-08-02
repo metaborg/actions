@@ -36,13 +36,16 @@ on:  # yamllint disable-line rule:truthy
         required: false
         default: |
           gradle build
+      needs-docker:
+        description: 'Whether the build needs Docker.'
+        type: boolean
+        required: false
+        default: false
 
 jobs:
   build:
     name: 'Build'
     runs-on: ${{ inputs.os }}
-    # Timeout in 10 minutes, as Stratego initialization can sometimes deadlock
-    timeout-minutes: 10
     steps:
       - name: 'Checkout'
         uses: actions/checkout@v4
@@ -51,6 +54,9 @@ jobs:
           # it requires all tags of all commits to be fetched
           fetch-depth: 0
           fetch-tags: true
+      - name: 'Setup Docker (missing on MacOS)'
+        if: "${{needs-docker}} && runner.os == 'macos'"
+        uses: douglascamata/setup-docker-macos-action@main
       - name: 'Validate Gradle wrapper'
         uses: gradle/actions/wrapper-validation@v3
       - name: "Setup JDK ${{ inputs.java-distribution }} ${{ inputs.java-version }}"
