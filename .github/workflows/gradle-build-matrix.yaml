@@ -28,7 +28,7 @@ jobs:
       matrix:
         os:
           - 'ubuntu-latest'
-          - 'macos-latest'
+          - 'macos-13'          # The last x86-64 macOS image
           # - 'windows-latest'  # Temporarily disabled, it is very slow
         java-version:
           - '11'
